@@ -1,8 +1,10 @@
 package com.pravin.restful;
 
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 /**
@@ -72,6 +74,31 @@ public class JerseyExample {
 	@Path("/regex/name/{studentName: [a-zA-Z\\s]+}")
 	public Response getStudentByName(@PathParam("studentName") String studentName) {
 		return Response.status(200).entity("Student wih Name :: " + studentName).build();
+	}
+
+	@GET
+	@Path("{branch}/{department}")
+	public Response getEmployeeList(@PathParam("branch") String branchName, @PathParam("department") String deptName) {
+		return Response.status(200)
+				.entity("Total number of employees in the " + deptName + " department from " + branchName + " is 100")
+				.build();
+	}
+
+	@GET
+	@Path("/query")
+	public Response getEmployeeQuery(@QueryParam("dept") String dept, @QueryParam("branch") String branch) {
+		return Response.status(200)
+				.entity("Query parameters are received. 'dept' value is: " + dept + " and branch value is: " + branch)
+				.build();
+	}
+
+	@GET
+	@Path("/query")
+	public Response getEmployeeQueryDefault(@DefaultValue("accounts") @QueryParam("dept") String dept,
+			@DefaultValue("pune") @QueryParam("bramch") String branch) {
+		return Response.status(200)
+				.entity("Query parameters are received. 'dept' value is: " + dept + " and branch value is: " + branch)
+				.build();
 	}
 
 }
